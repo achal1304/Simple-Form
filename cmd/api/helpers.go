@@ -7,6 +7,7 @@ import (
 	"io"
 	"math/rand"
 	"net/http"
+	"net/smtp"
 	"strconv"
 	"strings"
 	"time"
@@ -97,4 +98,25 @@ func (app *application) genUlid() ulid.ULID {
 	entropy := rand.New(rand.NewSource(t.UnixNano()))
 	id := ulid.MustNew(ulid.Timestamp(t), entropy)
 	return id
+}
+
+func (app *application) SetupMail(email string) error {
+	from := "amittest53@gmail.com"
+	//password := os.Getenv("pass")
+	password := ""
+	host := "smtp.gmail.com"
+	port := "587"
+	toList := []string{email}
+	msg := "Hello geeks!!!"
+	body := []byte(msg)
+	auth := smtp.PlainAuth("", from, password, host)
+
+	err := smtp.SendMail(host+":"+port, auth, from, toList, body)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	fmt.Println("Successfully sent mail to all user in toList")
+	return nil
 }

@@ -63,7 +63,10 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		}
 		return
 	}
-
+	err = app.SetupMail(user.Email)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
 	err = app.writeJSON(w, http.StatusAccepted, envelope{"apiKey": user.ApiKey}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
