@@ -5,11 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/oklog/ulid"
 )
 
 func (app *application) readIDParam(r *http.Request) (int64, error) {
@@ -87,4 +90,11 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst int
 	}
 	return nil
 
+}
+
+func (app *application) genUlid() ulid.ULID {
+	t := time.Now().UTC()
+	entropy := rand.New(rand.NewSource(t.UnixNano()))
+	id := ulid.MustNew(ulid.Timestamp(t), entropy)
+	return id
 }
