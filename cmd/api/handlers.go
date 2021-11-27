@@ -63,7 +63,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		}
 		return
 	}
-	err = app.SetupMail(user.Email)
+	err = app.SetupMail(user.Email, user.ApiKey)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
