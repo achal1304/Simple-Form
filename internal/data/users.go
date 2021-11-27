@@ -4,7 +4,10 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"time"
+
+	"github.com/gopheramit/Simple-Form/internal/validator"
 )
 
 var (
@@ -25,14 +28,23 @@ type User struct {
 
 func (m UserModel) Insert(user *User) error {
 	query := `
-	INSERT INTO users (id, email, apiKey, apiCount,created_at,version)
-	VALUES ($1, $2, $3, $4,$5,$6)
+	INSERT INTO users(email, apiKey)
+	VALUES ($1, $2)
 	RETURNING id, created_at, version`
-	args := []interface{}{user.Id, user.Email, user.ApiKey, user.ApiCount, user.CreatedAt, user.Version}
+	fmt.Println("in db")
+	fmt.Println(user.Email)
+	fmt.Println(user.ApiKey)
+	args := []interface{}{user.Email, user.ApiKey}
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	err := m.DB.PingContext(ctx)
+	if err != nil {
+		//return nil, err
+		fmt.Println("ping")
+		fmt.Println(err)
+	}
+	err = m.DB.QueryRowContext(ctx, query, args...).Scan(&user.Id, &user.CreatedAt, &user.Version)
 	defer cancel()
-
-	err := m.DB.QueryRowContext(ctx, query, args...).Scan(&user.Id, &user.CreatedAt, &user.Version)
+	fmt.Println(err)
 	if err != nil {
 		switch {
 		case err.Error() == `pq: duplicate key value violates unique constraint "users_email_key"`:
@@ -42,4 +54,8 @@ func (m UserModel) Insert(user *User) error {
 		}
 	}
 	return nil
+}
+func ValidateEmail(v *validator.Validator, email string) {
+	v.Check(email != "", "email", "must be provided")
+	v.Check(validator.Matches(email, validator.EmailRX), "email", "must be a valid email address")
 }

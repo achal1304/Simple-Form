@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gopheramit/Simple-Form/internal/data"
 	_ "github.com/lib/pq"
 )
 
@@ -29,6 +30,7 @@ type config struct {
 type application struct {
 	config config
 	logger *log.Logger
+	models data.Models
 }
 
 func main() { // Declare an instance of the config struct.
@@ -56,6 +58,7 @@ func main() { // Declare an instance of the config struct.
 	app := &application{
 		config: cfg,
 		logger: logger,
+		models: data.NewModels(db),
 	}
 
 	srv := &http.Server{
