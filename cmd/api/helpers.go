@@ -134,3 +134,36 @@ func (app *application) SetupMail(email string, apiKey string) error {
 	fmt.Println("Successfully sent mail to all user in toList")
 	return nil
 }
+
+func (app *application) SendFormOnMail(email string, data interface{}) error {
+	from := "amittest53@gmail.com"
+	//password := os.Getenv("pass")
+	password := ""
+	host := "smtp.gmail.com"
+	port := "587"
+	toList := []string{email}
+	// msg := "Hello geeks!!!"
+	// body := []byte(msg)
+	auth := smtp.PlainAuth("", from, password, host)
+
+	t, _ := template.ParseFiles("internal/html/form-data.tmpl")
+	var body bytes.Buffer
+	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+	body.Write([]byte(fmt.Sprintf("Subject: Access key from SIMPLE FORMS \n%s\n\n", mimeHeaders)))
+	t.Execute(&body, struct {
+		Email string
+		Data  interface{}
+	}{
+		Email: email,
+		Data:  data,
+	})
+
+	err := smtp.SendMail(host+":"+port, auth, from, toList, body.Bytes())
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	fmt.Println("Successfully sent mail to all user in toList")
+	return nil
+}

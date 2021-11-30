@@ -72,3 +72,45 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		app.serverErrorResponse(w, r, err)
 	}
 }
+
+func (app *application) formDataHandler(w http.ResponseWriter, r *http.Request) {
+	var input struct {
+		AccessKey string `json:"access-key"`
+		Name      string `json:"name"`
+		FirstName string `json:"firstName"`
+		LastName  string `json:"lastName"`
+		Email     string `json:"email"`
+		Address   string `json:"address"`
+		Phone     string `json:"phone"`
+		Message   string `json:"message"`
+	}
+
+	err := app.readJSON(w, r, &input)
+	if err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+	v := validator.New()
+	v.Check(input.AccessKey != "", "access-key", "Acceskey cannot beempty")
+
+	if !v.Valid() {
+		app.failedValidationResponse(w, r, v.Errors)
+		return
+	}
+
+	email, err := app.models.Forms.KeyVerification(input.AccessKey)
+	if err != nil {
+		switch {
+		//case errors.Is(err, data.ErrRecordNotFound):
+		//	app.invalidCredentialsResponse(w, r)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+		return
+	}
+	err = app.SendFormOnMail(email, &input)
+	if err != nil {
+		app.serverErrorResponse(w, r, err)
+	}
+
+}
