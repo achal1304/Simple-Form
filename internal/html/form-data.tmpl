@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <p>Hi!, you are receiving this email from SIMPLEFORMS Team</p>
+    <p>The details of Sender's and Query/feedback are as follows:</p></br>
+
+    {{if .Data.Email}}
+    <h3>Sender's Email:</h3><span>{{.Data.Email}}</span><br/>
+    {{end}}
+
+    {{if .Data.Name}}
+    <h3>Sender's Name:</h3><span>{{.Data.Name}}</span><br/>
+    {{end}}
+
+    {{if .Data.FirstName}}
+    <h3>First Name:</h3><span>{{.Data.FirstName}}</span><br/>
+    {{end}}
+
+    {{if .Data.LastName}}
+    <h3>Last Name:</h3><span>{{.Data.LastName}}</span><br/>
+    {{end}}
+
+    {{if .Data.Phone}}
+    <h3>Phone No. :</h3><span>{{.Data.Phone}}</span><br/>
+    {{end}}
+
+    {{if .Data.Address}}
+    <h3>Address :</h3><span>{{.Data.Address}}</span><br/>
+    {{end}}
+
+    {{if .Data.Message}}
+    <h3>Query/Feedback :</h3><span>{{.Data.Message}}</span><br/>
+    {{end}}
+    
+</body>
+</html>
