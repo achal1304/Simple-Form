@@ -105,7 +105,7 @@ func (app *application) genUlid() ulid.ULID {
 func (app *application) SetupMail(email string, apiKey string) error {
 	from := "amittest53@gmail.com"
 	//password := os.Getenv("pass")
-	password := "Amit@123"
+	password := ""
 	host := "smtp.gmail.com"
 	port := "587"
 	toList := []string{email}
