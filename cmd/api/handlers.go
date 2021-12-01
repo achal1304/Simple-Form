@@ -98,7 +98,7 @@ func (app *application) formDataHandler(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	email, err := app.models.Forms.KeyVerification(input.AccessKey)
+	email, count, err := app.models.Forms.KeyVerification(input.AccessKey)
 	if err != nil {
 		switch {
 		//case errors.Is(err, data.ErrRecordNotFound):
@@ -108,9 +108,24 @@ func (app *application) formDataHandler(w http.ResponseWriter, r *http.Request) 
 		}
 		return
 	}
+	if count == 0 {
+		app.notFoundResponse(w, r)
+		return
+	}
 	err = app.SendFormOnMail(email, &input)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}
+	count -= 1
+	err = app.models.Forms.UpdateCount(input.AccessKey, count)
 
+	if err != nil {
+		switch {
+		//case errors.Is(err, data.ErrRecordNotFound):
+		//	app.invalidCredentialsResponse(w, r)
+		default:
+			app.serverErrorResponse(w, r, err)
+		}
+		return
+	}
 }
