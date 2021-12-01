@@ -105,7 +105,7 @@ func (app *application) genUlid() ulid.ULID {
 func (app *application) SetupMail(email string, apiKey string) error {
 	from := "amittest53@gmail.com"
 	//password := os.Getenv("pass")
-	password := ""
+	password := "amit@agrawal@2021"
 	host := "smtp.gmail.com"
 	port := "587"
 	toList := []string{email}
@@ -138,7 +138,7 @@ func (app *application) SetupMail(email string, apiKey string) error {
 func (app *application) SendFormOnMail(email string, data interface{}) error {
 	from := "amittest53@gmail.com"
 	//password := os.Getenv("pass")
-	password := ""
+	password := "amit@agrawal@2021"
 	host := "smtp.gmail.com"
 	port := "587"
 	toList := []string{email}
@@ -149,7 +149,7 @@ func (app *application) SendFormOnMail(email string, data interface{}) error {
 	t, _ := template.ParseFiles("internal/html/form-data.tmpl")
 	var body bytes.Buffer
 	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	body.Write([]byte(fmt.Sprintf("Subject: Access key from SIMPLE FORMS \n%s\n\n", mimeHeaders)))
+	body.Write([]byte(fmt.Sprintf("Subject: Query Form Details\n%s\n\n", mimeHeaders)))
 	t.Execute(&body, struct {
 		Email string
 		Data  interface{}
