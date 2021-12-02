@@ -21,38 +21,38 @@ type Form struct {
 	Message   string `json:"message"`
 }
 
-func (m FormModel) KeyVerification(key string) (string, int64, error) {
-	query := ` select email,apiCount FROM users WHERE apiKey= $1`
+func (m FormModel) KeyVerification(key string) (string, int64, int, error) {
+	query := ` select email,apiCount,version FROM users WHERE apiKey= $1`
 	var email string
 	var count int64
+	var version int
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	err := m.DB.QueryRowContext(ctx, query, key).Scan(&email, &count)
+	err := m.DB.QueryRowContext(ctx, query, key).Scan(&email, &count, &version)
 	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
-			return "", 0, ErrRecordNotFound
+			return "", 0, 0, ErrRecordNotFound
 		default:
-			return "", 0, err
+			return "", 0, 0, err
 
 		}
 	}
-	return email, count, nil
+	return email, count, version, nil
 
 }
 
-func (m FormModel) UpdateCount(key string, cnt int64) error {
-	query := `update users set apiCount=$1 WHERE apiKey= $2`
+func (m FormModel) UpdateCount(key string, cnt int64, version int) error {
+	query := `update users set apiCount=$1 , version = version + 1 WHERE apiKey= $2 AND version = $3`
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	_, err := m.DB.ExecContext(ctx, query, cnt, key)
+	_, err := m.DB.ExecContext(ctx, query, cnt, key, version)
 	if err != nil {
 		switch {
 		case errors.Is(err, sql.ErrNoRows):
-			return ErrRecordNotFound
+			return ErrEditConflict
 		default:
 			return err
-
 		}
 	}
 	return nil
