@@ -103,11 +103,15 @@ func (app *application) genUlid() ulid.ULID {
 }
 
 func (app *application) SetupMail(email string, apiKey string) error {
-	from := "amittest53@gmail.com"
+	from := app.config.smtp.username
 	//password := os.Getenv("pass")
-	password := "amit@agrawal@2021"
-	host := "smtp.gmail.com"
-	port := "587"
+	password := app.config.smtp.password
+	//password := "amit@agrawal@2021"
+	//host := "smtp.gmail.com"
+	//port := "587"
+	host := app.config.smtp.host
+	port := app.config.smtp.port
+	portStr := strconv.Itoa(port)
 	toList := []string{email}
 	// msg := "Hello geeks!!!"
 	// body := []byte(msg)
@@ -125,7 +129,7 @@ func (app *application) SetupMail(email string, apiKey string) error {
 		AccessKey: apiKey,
 	})
 
-	err := smtp.SendMail(host+":"+port, auth, from, toList, body.Bytes())
+	err := smtp.SendMail(host+":"+portStr, auth, from, toList, body.Bytes())
 	if err != nil {
 		fmt.Println(err)
 		return err
