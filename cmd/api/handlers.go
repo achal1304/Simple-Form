@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/gopheramit/Simple-Form/internal/data"
@@ -49,8 +48,8 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		app.failedValidationResponse(w, r, v.Errors)
 		return
 	}
-	fmt.Println(user.Email)
-	fmt.Println(user.ApiKey)
+	//fmt.Println(user.Email)
+	//fmt.Println(user.ApiKey)
 	err = app.models.Users.Insert(user)
 	if err != nil {
 		switch {
