@@ -104,17 +104,14 @@ func (app *application) genUlid() ulid.ULID {
 
 func (app *application) SetupMail(email string, apiKey string) error {
 	from := app.config.smtp.username
-	//password := os.Getenv("pass")
+
 	password := app.config.smtp.password
-	//password := "amit@agrawal@2021"
-	//host := "smtp.gmail.com"
-	//port := "587"
+
 	host := app.config.smtp.host
 	port := app.config.smtp.port
 	portStr := strconv.Itoa(port)
 	toList := []string{email}
-	// msg := "Hello geeks!!!"
-	// body := []byte(msg)
+
 	auth := smtp.PlainAuth("", from, password, host)
 
 	t, _ := template.ParseFiles("internal/html/welcome.tmpl")
@@ -140,11 +137,13 @@ func (app *application) SetupMail(email string, apiKey string) error {
 }
 
 func (app *application) SendFormOnMail(email string, data interface{}) error {
-	from := "amittest53@gmail.com"
-	//password := os.Getenv("pass")
-	password := "amit@agrawal@2021"
-	host := "smtp.gmail.com"
-	port := "587"
+	from := app.config.smtp.username
+
+	password := app.config.smtp.password
+
+	host := app.config.smtp.host
+	port := app.config.smtp.port
+	portStr := strconv.Itoa(port)
 	toList := []string{email}
 	// msg := "Hello geeks!!!"
 	// body := []byte(msg)
@@ -162,7 +161,7 @@ func (app *application) SendFormOnMail(email string, data interface{}) error {
 		Data:  data,
 	})
 
-	err := smtp.SendMail(host+":"+port, auth, from, toList, body.Bytes())
+	err := smtp.SendMail(host+":"+portStr, auth, from, toList, body.Bytes())
 	if err != nil {
 		fmt.Println(err)
 		return err
