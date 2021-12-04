@@ -28,6 +28,12 @@ func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Reque
 	app.errorResponse(w, r, http.StatusInternalServerError, message)
 }
 
+func (app *application) mailErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
+	app.logError(r, err)
+	message := "the server was unable to send mail"
+	app.errorResponse(w, r, http.StatusInternalServerError, message)
+}
+
 func (app *application) notFoundResponse(w http.ResponseWriter, r *http.Request) {
 	message := "the requested resource could not be found"
 	app.errorResponse(w, r, http.StatusNotFound, message)
