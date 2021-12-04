@@ -64,7 +64,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 	err = app.SetupMail(user.Email, user.ApiKey)
 	if err != nil {
-		app.serverErrorResponse(w, r, err)
+		app.mailErrorResponse(w, r, err)
 	}
 	err = app.writeJSON(w, http.StatusAccepted, envelope{"apiKey": user.ApiKey}, nil)
 	if err != nil {
@@ -102,6 +102,9 @@ func (app *application) formDataHandler(w http.ResponseWriter, r *http.Request) 
 		switch {
 		//case errors.Is(err, data.ErrRecordNotFound):
 		//	app.invalidCredentialsResponse(w, r)
+		case errors.Is(err, data.ErrRecordNotFound):
+			v.AddError("apiKey", "ApiKey does not exist")
+			app.failedValidationResponse(w, r, v.Errors)
 		default:
 			app.serverErrorResponse(w, r, err)
 		}
@@ -113,7 +116,7 @@ func (app *application) formDataHandler(w http.ResponseWriter, r *http.Request) 
 	}
 	err = app.SendFormOnMail(email, &input)
 	if err != nil {
-		app.serverErrorResponse(w, r, err)
+		app.mailErrorResponse(w, r, err)
 	}
 	count -= 1
 	err = app.models.Forms.UpdateCount(input.AccessKey, count, version)
