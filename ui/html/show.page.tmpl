@@ -1,0 +1,11 @@
+{{template "base" .}} 
+{{define "title"}}Snippet #{{.Snippet.ID}}{{end}}
+{{define "main"}} 
+<div class='snippet'> 
+    {{with .Healthcheck}}
+    <div class='metadata'> 
+        <strong>{{.status}}</strong> 
+    </div> 
+    {{end}}
+</div>
+{{end}}
