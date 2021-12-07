@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"github.com/gopheramit/Simple-Form/internal/pkg"
+	"github.com/gopheramit/Simple-Form/internal/pkg/forms"
 )
 
 type templateData struct {
 	//	CSRFToken   string
 	//	CurrentYear int
-	//	Form        *forms.Form
+	Form *forms.Form
 	//	Flash       string
 	Snippet *pkg.EmailInput
 	//Snippets        []*models.Snippet

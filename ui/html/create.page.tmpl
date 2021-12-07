@@ -1,0 +1,17 @@
+{{template "base" .}} 
+{{define "main"}} 
+<form action='/snippet/create' method='POST'> 
+    {{with .Form}}
+    <div>
+        <label>Email:</label> 
+        {{with .Errors.Get "error"}} 
+            <label class='error'>{{.}}</label>
+        {{end}}
+        <input type='text' name='email' value='{{.Get "email"}}'> 
+    </div> 
+    <div>
+        <input type='submit' value='Publish snippet'> 
+    </div>
+    {{end}}
+</form> 
+{{end}}

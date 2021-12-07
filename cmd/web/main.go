@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/tls"
-	"database/sql"
 	"flag"
 	"log"
 	"net/http"
@@ -68,15 +67,4 @@ func main() {
 	infoLog.Printf("Starting server on %s", *addr)
 	err = srv.ListenAndServe()
 	errorLog.Fatal(err)
-}
-
-func openDB(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", dsn)
-	if err != nil {
-		return nil, err
-	}
-	if err = db.Ping(); err != nil {
-		return nil, err
-	}
-	return db, nil
 }
