@@ -24,7 +24,8 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	// 	app.serverError(w, err)
 	// 	return
 	// }
-	app.render(w, r, "home.page.tmpl", nil)
+	app.render(w, r, "home.page.tmpl", &templateData{
+		Form: forms.New(nil)})
 
 }
 
