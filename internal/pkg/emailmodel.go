@@ -7,5 +7,5 @@ import (
 var ErrNoRecord = errors.New("models: no matching record found")
 
 type EmailInput struct {
-	Status string
+	Email string `json:"email"`
 }
