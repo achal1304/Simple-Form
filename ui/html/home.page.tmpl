@@ -1,18 +1,3 @@
-<!--{{template "base" .}} 
-{{define "title"}}
-    Home
-{{end}} 
-
-{{define "main"}} 
-    <h2>Latest Snippets</h2> 
-    <p>There's nothing to see here yet!</p> 
-{{end}}-->
-
-
-<!--/* <button [routerLink]="['google-auth']" mat-raised-button class="google-login-btn">
-    login
-  </button> *-->
-
   <!DOCTYPE html>
   <html lang="en">
       <head>
@@ -44,7 +29,7 @@
                   </button>
                   <div class="collapse navbar-collapse" id="navbarResponsive">
                       <ul class="navbar-nav ms-auto">
-                          <!--<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Portfolio</a></li>-->
+                          <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Portfolio</a></li>
                           <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
                           <!--<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>-->
                       </ul>
@@ -58,6 +43,41 @@
                   <img class="masthead-avatar mb-5" src="../static/img/avataaars.svg" alt="..." />
                   <!-- Masthead Heading-->
                   <h4 class="masthead-heading text-uppercase mb-0">Get Your API Key</h4>
+                  <div class="container">
+                  
+                    <!-- <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Free API Key</h2> -->
+                    <div class="row justify-content-center">
+                  <form action='/create' method='POST'> 
+                    {{with .Form}}
+                    <!-- <div>
+                        <label>Email:</label> 
+                        <input type='text' name='email' value='{{.Get "email"}}'> 
+                    </div>  -->
+                    <div class="form-floating mb-3">
+                        <input class="form-control"  name='email' value='{{.Get "email"}}' id="email" type="text" placeholder="Enter your email..." data-sb-validations="required" />
+                        <label for="email">Email</label>
+                        <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
+
+                        
+                    </div>
+                    {{with .Errors.Get "email"}} 
+                        <label class='error' style="color: darkred;">{{.}}</label>
+                    {{end}}
+                </br>
+                    <!-- <div>
+                        <input type='submit' value='Get Key on Email'> 
+                    </div> -->
+    
+                    {{if .Errors.Get "success"}}
+                    <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Email Sent Successfully</button>
+                    {{else}}
+                    <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Get Key on Email</button>
+                    {{end}}
+                   
+                    {{end}}
+                </form> 
+            </div>
+                  </div>
 
                   <!-- Icon Divider-->
                   <div class="divider-custom divider-light">
@@ -70,33 +90,8 @@
                   <!--<p class="masthead-subheading font-weight-light mb-0">Graphic Artist - Web Designer - Illustrator</p>-->
               </div>
           </header>
-          <div class="container">
-                  
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Free API Key</h2>
-            <div class="row justify-content-center">
-          <form action='/snippet/create' method='POST'> 
-            {{with .Form}}
-            <!-- <div>
-                <label>Email:</label> 
-                <input type='text' name='email' value='{{.Get "email"}}'> 
-            </div>  -->
-            <div class="form-floating mb-3">
-                <input class="form-control"  name='email' value='{{.Get "email"}}' id="email" type="text" placeholder="Enter your email..." data-sb-validations="required" />
-                <label for="email">Email</label>
-                <div class="invalid-feedback" data-sb-feedback="email:required">A email is required.</div>
-            </div>
-            <!-- <div>
-                <input type='submit' value='Get Key on Email'> 
-            </div> -->
-        
-                              
-            <button class="btn btn-primary btn-xl" id="submitButton" type="submit">Get Key on Email</button>
-            {{end}}
-        </form> 
-    </div>
-          </div>
           <!-- Portfolio Section-->
-          <!--<section class="page-section portfolio" id="portfolio">
+          <section class="page-section portfolio" id="portfolio">
               <div class="container">
                   
                   <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Portfolio</h2>
@@ -114,7 +109,7 @@
                               <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                   <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                               </div>
-                              <img class="img-fluid" src="assets/img/portfolio/cabin.png" alt="..." />
+                              <img class="img-fluid" src="../static/img/portfolio/cabin.png" alt="..." />
                           </div>
                       </div>
                       
@@ -123,7 +118,7 @@
                               <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                   <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                               </div>
-                              <img class="img-fluid" src="assets/img/portfolio/cake.png" alt="..." />
+                              <img class="img-fluid" src="../static/img/portfolio/cake.png" alt="..." />
                           </div>
                       </div>
                       
@@ -132,7 +127,7 @@
                               <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                   <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                               </div>
-                              <img class="img-fluid" src="assets/img/portfolio/circus.png" alt="..." />
+                              <img class="img-fluid" src="../static/img/portfolio/circus.png" alt="..." />
                           </div>
                       </div>
                      
@@ -141,7 +136,7 @@
                               <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                   <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                               </div>
-                              <img class="img-fluid" src="assets/img/portfolio/game.png" alt="..." />
+                              <img class="img-fluid" src="../static/img/portfolio/game.png" alt="..." />
                           </div>
                       </div>
                       
@@ -150,7 +145,7 @@
                               <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                   <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                               </div>
-                              <img class="img-fluid" src="assets/img/portfolio/safe.png" alt="..." />
+                              <img class="img-fluid" src="../static/img/portfolio/safe.png" alt="..." />
                           </div>
                       </div>
                       
@@ -159,12 +154,12 @@
                               <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                   <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                               </div>
-                              <img class="img-fluid" src="assets/img/portfolio/submarine.png" alt="..." />
+                              <img class="img-fluid" src="../static/img/portfolio/submarine.png" alt="..." />
                           </div>
                       </div>
                   </div>
               </div>
-          </section>-->
+          </section>
           <!-- About Section-->
           <section class="page-section bg-primary text-white mb-0" id="about">
               <div class="container">

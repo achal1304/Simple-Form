@@ -50,10 +50,10 @@ func (app *application) showSnippet(w http.ResponseWriter, r *http.Request) {
 	app.render(w, r, "show.page.tmpl", &templateData{Snippet: input})
 }
 
-func (app *application) createSnippetForm(w http.ResponseWriter, r *http.Request) {
-	app.render(w, r, "create.page.tmpl", &templateData{
-		Form: forms.New(nil)})
-}
+// func (app *application) createSnippetForm(w http.ResponseWriter, r *http.Request) {
+// 	app.render(w, r, "create.page.tmpl", &templateData{
+// 		Form: forms.New(nil)})
+// }
 
 func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 
@@ -75,7 +75,7 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	// form.PermittedValues("expires", "365", "7", "1")
 
 	if !form.Valid() {
-		app.render(w, r, "create.page.tmpl", &templateData{Form: form})
+		app.render(w, r, "home.page.tmpl", &templateData{Form: form})
 		return
 	}
 
@@ -86,6 +86,12 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 
 	type myStruct struct {
 		Email string `json:"email"`
+	}
+	var resError struct {
+		Error struct {
+			Email     string `json:"email"`
+			EmailSend string `json:"emailSend"`
+		} `json:"error"`
 	}
 
 	myData := myStruct{
@@ -111,6 +117,32 @@ func (app *application) createSnippet(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("response Status:", response.Status)
 	fmt.Println("response Headers:", response.Header)
 	body, _ := ioutil.ReadAll(response.Body)
+
+	if response.StatusCode == 500 {
+
+		form.Errors.Add("email", "Email was not sent")
+
+	} else {
+		// fmt.Println("In else loop status = ", response.Status)
+		if err := json.Unmarshal(body, &resError); err != nil { // Parse []byte to the go struct pointer
+			fmt.Println("Can not unmarshal JSON")
+		}
+	}
+
+	if response.StatusCode != 202 && string(body) != "" {
+		if resError.Error.Email != "" {
+			form.Errors.Add("email", resError.Error.Email)
+		}
+		if resError.Error.Email != "" {
+			form.Errors.Add("emailSend", resError.Error.EmailSend)
+		}
+	} else {
+		form.Errors.Add("success", "Email was sent successfully")
+	}
+	if !form.Valid() {
+		app.render(w, r, "home.page.tmpl", &templateData{Form: form})
+		return
+	}
 	fmt.Println("response Body:", string(body))
 
 	// id, err := app.snippets.Insert(form.Get("title"), form.Get("content"), form.Get("expires"))

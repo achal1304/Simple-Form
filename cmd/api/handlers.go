@@ -64,9 +64,11 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 	err = app.SetupMail(user.Email, user.ApiKey)
 	if err != nil {
+		v.AddError("emailSend", "Email was not sent")
 		app.mailErrorResponse(w, r, err)
 	}
-	err = app.writeJSON(w, http.StatusAccepted, envelope{"apiKey": user.ApiKey}, nil)
+
+	err = app.writeJSON(w, http.StatusAccepted, nil, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 	}

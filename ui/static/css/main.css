@@ -11507,3 +11507,14 @@ html {
 .copyright {
   background-color: #1a252f;
 }
+
+.error {
+    color: #FF0000;
+    font-weight: bold;
+    display: block;
+}
+
+.error + textarea, .error + input {
+    border-color: #C0392B !important;
+    border-width: 2px !important;
+}
