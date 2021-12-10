@@ -13,5 +13,5 @@ func (app *application) routes() http.Handler {
 	mux.Post("/create", http.HandlerFunc(app.createSnippet))
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
 	mux.Get("/static/", http.StripPrefix("/static", fileServer))
-	return mux
+	return secureHeaders(mux)
 }
