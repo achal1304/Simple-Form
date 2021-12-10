@@ -11,11 +11,6 @@ func (app *application) addDefaultData(td *templateData, r *http.Request) *templ
 	if td == nil {
 		td = &templateData{}
 	}
-	//td.CSRFToken = nosurf.Token(r)
-	//.CurrentYear = time.Now().Year()
-	//td.Flash = app.session.PopString(r, "flash")
-	// Add the authentication status to the template data.
-	//td.IsAuthenticated = app.isAuthenticated(r)
 	return td
 }
 
