@@ -36,8 +36,11 @@
                   </button>
                   <div class="collapse navbar-collapse" id="navbarResponsive">
                       <ul class="navbar-nav ms-auto">
-                          <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Portfolio</a></li>
+                          
                           <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
+                          <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">Portfolio</a></li>
+                          <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#faq">FAQs</a></li>
+                          <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#features">Features</a></li>
                           <!--<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>-->
                       </ul>
                   </div>
@@ -50,6 +53,7 @@
                   <img class="masthead-avatar mb-5" src="../static/img/avataaars.svg" alt="..." />
                   <!-- Masthead Heading-->
                   <h4 class="masthead-heading text-uppercase mb-0">Get Your API Key</h4>
+              </br>
                   <div class="container">
                   
                     <!-- <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Free API Key</h2> -->
@@ -98,16 +102,22 @@
               </div>
           </header>
 <!-- Snapshot-->
-
+<section class="page-section portfolio" id="video">
 <div > <video  top-margin="5px" class="center" width="400" height="300" controls>
     <source src="../static/assets/sample-mp4-file-small.mp4" type="video/mp4">
     <source src="movie.ogg" type="video/ogg">
   Your browser does not support the video tag.
   </video> </div>
+</section>
 
           <!-- Features-->
-          
-          <h3 class="text-center mb-4 pb-2 text-primary fw-bold">Features</h3>
+          <section class="page-section bg-primary text-white mb-0" id="features">
+          <h3 class="page-section-heading text-center text-uppercase text-white">Features</h3>
+          <div class="divider-custom divider-light">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
             <div class="col d-flex align-items-start">
               <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#bootsrap"></use></svg>
@@ -166,18 +176,25 @@
               </div>
             </div>
           </div>
+          </section>
           <!-- Faqs Section-->
           
           
 <!--Section: FAQ-->
-<section>
+<section class="page-section portfolio" id="faq">
 
-    <h3 class="text-center mb-4 pb-2 text-primary fw-bold">FAQ</h3>
-    <p class="text-center mb-5">
+    <h3 class="page-section-heading text-center text-uppercase text-secondary mb-0">FAQ</h3>
+    <div class="divider-custom">
+        <div class="divider-custom-line"></div>
+        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+        <div class="divider-custom-line"></div>
+    </div>
+
+    <h5 class="text-center text-uppercase text-secondary">
       Find the answers for the most frequently asked questions below
-    </p>
-  
-    <div class="row">
+    </h5>
+</br>
+    <div class="row justify-content-center">
       <div class="col-md-6 col-lg-4 mb-4">
         <h6 class="mb-3 text-primary"><i class="far fa-paper-plane text-primary pe-2"></i> A simple
           question?</h6>
